@@ -1,17 +1,16 @@
 class Solution {
     public int waysToSplitArray(int[] nums) {
-        if (nums.length == 1)
-            return 1;
-
-        long[] sum = new long[nums.length];
-        sum[0] = nums[0];
-        for (int i = 1; i < nums.length; i++)
-            sum[i] = sum[i - 1] + nums[i];
-
-        int count = 0;
-        for (int i = 0; i < nums.length - 1; i++) {
-            if (sum[i] >= (sum[nums.length - 1] - sum[i]))
+        long sum = 0;
+        for (int num : nums)
+            sum += num;
+        int count = 0, i = 0;
+        long prefixSum = 0;
+        while (i < nums.length - 1) {
+            prefixSum += nums[i];
+            long otherSum = sum - prefixSum;
+            if(prefixSum >= otherSum)
                 count++;
+            i++;
         }
         return count;
     }
